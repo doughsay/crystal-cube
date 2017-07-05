@@ -15,6 +15,11 @@ class ShaderProgram
     fragment_shader.delete
   end
 
+  def use(&block)
+    GL.use_program(@handle)
+    yield
+  end
+
   private def check_for_linking_errors
     GL.get_programiv(@handle, GL::LINK_STATUS, out success)
 

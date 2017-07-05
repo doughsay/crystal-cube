@@ -18,8 +18,6 @@ class Window
   end
 
   def open(&block)
-    set_context_current
-
     while true
       LibGLFW.poll_events
       break if LibGLFW.get_key(@handle, LibGLFW::KEY_ESCAPE) == LibGLFW::PRESS && LibGLFW.window_should_close(@handle)
