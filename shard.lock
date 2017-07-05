@@ -1,0 +1,5 @@
+version: 1.0
+shards:
+  lib_glfw:
+    github: lirith-engine/lib_glfw
+    commit: d24b4fb415398040b841dddccd471db206fdb291

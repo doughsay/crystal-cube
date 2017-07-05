@@ -1,0 +1,6 @@
+name: crlife
+version: 1.0.0
+
+dependencies:
+  lib_glfw:
+    github: lirith-engine/lib_glfw
