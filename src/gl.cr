@@ -19,6 +19,7 @@ lib GL
   TRUE = 1
   UNSIGNED_INT = 0x1405_u32
   TRIANGLES = 0x0004_u32
+  DEPTH_TEST = 0x0B71_u32
 
   fun clear = glClear(mask: UInt32) : Void
   fun clear_color = glClearColor(red: Float32, green: Float32, blue: Float32, alpha: Float32) : Void
@@ -42,6 +43,10 @@ lib GL
   fun vertex_attrib_pointer = glVertexAttribPointer(index: UInt32, size: Int32, type: UInt32, normalized: UInt8, stride: Int32, pointer: Void*) : Void
   fun enable_vertex_attrib_array = glEnableVertexAttribArray(index: UInt32) : Void
   fun draw_elements = glDrawElements(mode: UInt32, count: Int32, type: UInt32, indices: Void*) : Void
+  fun draw_arrays = glDrawArrays(mode: UInt32, first: Int32, count: Int32) : Void
   fun delete_vertex_arrays = glDeleteVertexArrays(n: Int32, arrays: UInt32*) : Void
   fun delete_buffers = glDeleteBuffers(n: Int32, buffers: UInt32*) : Void
+  fun enable = glEnable(cap: UInt32) : Void
+  fun get_uniform_location = glGetUniformLocation(program: UInt32, name: UInt8*) : Int32
+  fun uniform_matrix4fv = glUniformMatrix4fv(location: Int32, count: Int32, transpose: UInt8, value: Float32*) : Void
 end

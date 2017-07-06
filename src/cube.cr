@@ -28,18 +28,18 @@ class Cube
   COLOR_OFFSET = Offset.new(3)
 
   INDICES = [
-    4, 5, 1,
-    4, 1, 0,
-    5, 7, 3,
-    5, 3, 1,
-    7, 6, 2,
-    7, 2, 3,
-    6, 4, 0,
-    6, 0, 2,
-    0, 1, 3,
-    0, 3, 2,
-    6, 7, 5,
-    6, 5, 4
+    4_u32, 5_u32, 1_u32,
+    4_u32, 1_u32, 0_u32,
+    5_u32, 7_u32, 3_u32,
+    5_u32, 3_u32, 1_u32,
+    7_u32, 6_u32, 2_u32,
+    7_u32, 2_u32, 3_u32,
+    6_u32, 4_u32, 0_u32,
+    6_u32, 0_u32, 2_u32,
+    0_u32, 1_u32, 3_u32,
+    0_u32, 3_u32, 2_u32,
+    6_u32, 7_u32, 5_u32,
+    6_u32, 5_u32, 4_u32
   ]
   NUM_INDICES = INDICES.size
   INDEX_SIZE = sizeof(UInt32)
@@ -60,10 +60,10 @@ class Cube
     GL.bind_buffer(GL::ELEMENT_ARRAY_BUFFER, @ebo)
     GL.buffer_data(GL::ELEMENT_ARRAY_BUFFER, INDICES_SIZE, INDICES, GL::STATIC_DRAW)
 
-    GL.vertex_attrib_pointer(0, 3, GL::FLOAT, GL::FALSE, STRIDE, VERTEX_OFFSET)
+    GL.vertex_attrib_pointer(0, 3, GL::FLOAT, GL::FALSE, 6 * sizeof(Float32), Pointer(Void).new(0))
     GL.enable_vertex_attrib_array(0)
 
-    GL.vertex_attrib_pointer(1, 3, GL::FLOAT, GL::FALSE, STRIDE, COLOR_OFFSET)
+    GL.vertex_attrib_pointer(1, 3, GL::FLOAT, GL::FALSE, 6 * sizeof(Float32), Pointer(Void).new(3 * sizeof(Float32)))
     GL.enable_vertex_attrib_array(1)
   end
 

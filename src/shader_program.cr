@@ -20,6 +20,13 @@ class ShaderProgram
     yield
   end
 
+  def set_uniform_matrix_4f(uniform, value)
+    use do
+      location = GL.get_uniform_location(@handle, uniform)
+      GL.uniform_matrix4fv(location, 1, GL::FALSE, value)
+    end
+  end
+
   private def check_for_linking_errors
     GL.get_programiv(@handle, GL::LINK_STATUS, out success)
 
