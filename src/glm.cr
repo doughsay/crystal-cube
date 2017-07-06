@@ -187,6 +187,43 @@ module GLM
     Vec3.new(x.to_f32, y.to_f32, z.to_f32)
   end
 
+  def self.translate(vec)
+    translate(Mat4.identity, vec)
+  end
+
+  def self.translate(other, vec)
+    result = Mat4.identity
+    result[0, 3] = vec.x
+    result[1, 3] = vec.y
+    result[2, 3] = vec.z
+    other * result
+  end
+
+  def self.rotate(angle, vec)
+    rotate(Mat4.identity, angle, vec)
+  end
+
+  def self.rotate(other, angle, vec)
+    c = Math.cos(angle).to_f32
+    s = Math.sin(angle).to_f32
+    result = Mat4.identity
+    axis = vec.normalize
+
+    result[0, 0] = c + (1 - c) * axis.x * axis.x
+    result[0, 1] = (1 - c) * axis.x * axis.y + s * axis.z
+    result[0, 2] = (1 - c) * axis.x * axis.z - s * axis.y
+
+    result[1, 0] = (1 - c) * axis.y * axis.x - s * axis.z
+    result[1, 1] = c + (1 - c) * axis.y * axis.y
+    result[1, 2] = (1 - c) * axis.y * axis.z + s * axis.x
+
+    result[2, 0] = (1 - c) * axis.z * axis.x + s * axis.y
+    result[2, 1] = (1 - c) * axis.z * axis.y - s * axis.x
+    result[2, 2] = c + (1 - c) * axis.z * axis.z
+
+    other * result
+  end
+
   def self.perspective(fov_y, aspect, near, far)
     raise ArgumentError.new if aspect == 0 || near == far
     rad = GLM.deg_to_rad(fov_y)

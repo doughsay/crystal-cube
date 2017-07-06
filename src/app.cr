@@ -37,8 +37,8 @@ class App
   private def render
     clear
     @shader_program.use do
-      model = GLM::Mat4.identity
-      view = GLM::Mat4.identity
+      model = GLM.rotate(LibGLFW.get_time, GLM.vec3(0.5, 1.0, 0.0))
+      view = GLM.translate(GLM.vec3(0.0, 0.0, -6.0))
 
       @shader_program.set_uniform_matrix_4f("model", model)
       @shader_program.set_uniform_matrix_4f("view", view)
