@@ -3,10 +3,14 @@ Crystal OpenGL Rotating Cube
 
 A rotating colorful cube in Crystal.
 
+Dependencies
+------------
+
+1. A working Crystal instalation (`brew install crystal-lang`)
+2. GLFW3 (`brew install glfw3`)
+
 How To Run
 ----------
-
-Assuming you have a working installation of Crystal, and glfw3 (`brew install glfw3`):
 
 ```
 # install dependencies
