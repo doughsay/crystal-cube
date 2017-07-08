@@ -4,3 +4,5 @@ version: 1.0.0
 dependencies:
   lib_glfw:
     github: lirith-engine/lib_glfw
+  gl:
+    github: doughsay/crystal-gl

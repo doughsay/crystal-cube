@@ -1,84 +1,66 @@
 class ShaderProgram
+  @program : GL::ShaderProgram
+
   def initialize(vertex_shader_filename, fragment_shader_filename)
-    @handle = GL.create_program
+    @program = GL.create_program
 
     vertex_shader = VertexShader.new(vertex_shader_filename)
     fragment_shader = FragmentShader.new(fragment_shader_filename)
 
-    GL.attach_shader(@handle, vertex_shader.handle)
-    GL.attach_shader(@handle, fragment_shader.handle)
-    GL.link_program(@handle)
+    GL.attach_shader(@program, vertex_shader.shader)
+    GL.attach_shader(@program, fragment_shader.shader)
+    GL.link_program(@program)
 
-    check_for_linking_errors
+    raise "Shader program linking error!" unless GL.get_program_link_status(@program)
 
     vertex_shader.delete
     fragment_shader.delete
   end
 
   def use(&block)
-    GL.use_program(@handle)
+    GL.use_program(@program)
     yield
   end
 
-  def set_uniform_matrix_4f(uniform, value)
+  def set_uniform_matrix_4f(name, value)
     use do
-      location = GL.get_uniform_location(@handle, uniform)
-      GL.uniform_matrix4fv(location, 1, GL::FALSE, value)
+      uniform = GL.get_uniform_location(@program, name)
+      GL.uniform_matrix4fv(uniform, 1, false, value.buffer)
     end
-  end
-
-  private def check_for_linking_errors
-    GL.get_programiv(@handle, GL::LINK_STATUS, out success)
-
-    if !success
-      GL.get_program_info_log(@handle, 512, nil, out info_log)
-      raise "Shader program linking error\n#{info_log}"
-    end
-
-    true
   end
 
   private abstract class Shader
-    getter :handle
+    getter :shader
 
     def initialize(filename)
-      @handle = GL.create_shader(shader_type)
+      @shader = GL.create_shader(shader_type)
 
       load(filename)
     end
 
     def delete
-      GL.delete_shader(@handle)
+      GL.delete_shader(@shader)
     end
 
     private abstract def shader_type
 
     private def load(filename)
       source = File.read(filename)
-      GL.shader_source(@handle, 1, [source.to_unsafe], nil)
-      GL.compile_shader(@handle)
-      check_for_compile_errors
-    end
-
-    private def check_for_compile_errors
-      GL.get_shaderiv(@handle, GL::COMPILE_STATUS, out success)
-
-      if !success
-        GL.get_shader_info_log(@handle, 512, nil, out info_log)
-        raise "Shader compile error\n#{info_log}"
-      end
+      GL.shader_source(@shader, source)
+      GL.compile_shader(@shader)
+      raise "Shader compile error!" unless GL.get_shader_compile_status(@shader)
     end
   end
 
   private class VertexShader < Shader
     def shader_type
-      GL::VERTEX_SHADER
+      GL::ShaderType::VertexShader
     end
   end
 
   private class FragmentShader < Shader
     def shader_type
-      GL::FRAGMENT_SHADER
+      GL::ShaderType::FragmentShader
     end
   end
 end
