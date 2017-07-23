@@ -2,9 +2,9 @@ version: 1.0
 shards:
   gl:
     github: doughsay/crystal-gl
-    commit: 799c7033b0dfd412cdbf6a199e4826dc1b087b59
+    commit: 42b4df8b5c92e101af13a5cfdcd17328ec5503c1
 
-  lib_glfw:
-    github: lirith-engine/lib_glfw
-    commit: d24b4fb415398040b841dddccd471db206fdb291
+  glfw:
+    github: doughsay/crystal-glfw
+    commit: fb8639a78930300e422278c2828bad4f9e2da8ac
 
